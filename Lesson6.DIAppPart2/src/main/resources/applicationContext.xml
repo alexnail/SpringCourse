@@ -2,20 +2,35 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context
-        http://www.springframework.org/schema/context/spring-context.xsd">
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/util
+        http://www.springframework.org/schema/util/spring-util.xsd">
 
     <context:property-placeholder location="classpath:musicPlayer.properties"/>
 
-    <bean id="musicBean"
-          class="ru.alishev.springcourse.ClassicalMusic">
-    </bean>
+    <bean id="classicalBean"
+          class="ru.alishev.springcourse.ClassicalMusic"/>
+
+    <bean id="rockBean"
+          class="ru.alishev.springcourse.RockMusic"/>
+
+    <bean id="ambientBean"
+          class="ru.alishev.springcourse.AmbientMusic"/>
+
+    <util:list id="musicListBean" value-type="ru.alishev.springcourse.Music">
+        <ref bean="rockBean"/>
+        <ref bean="classicalBean"/>
+        <ref bean="ambientBean"/>
+    </util:list>
 
     <bean id="musicPlayer"
           class="ru.alishev.springcourse.MusicPlayer">
-        <property name="music" ref="musicBean"/>
+
+        <property name="musicList" ref="musicListBean"/>
 
         <property name="name" value="${musicPlayer.name}"/>
         <property name="volume" value="${musicPlayer.volume}"/>
