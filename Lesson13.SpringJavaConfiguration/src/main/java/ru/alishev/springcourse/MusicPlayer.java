@@ -1,7 +1,9 @@
 package ru.alishev.springcourse;
 
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * @author Neil Alishev
@@ -14,6 +16,8 @@ public class MusicPlayer {
     @Value("${musicPlayer.volume}")
     private int volume;
 
+    private List<Music> musicList;
+
     public String getName() {
         return name;
     }
@@ -22,16 +26,12 @@ public class MusicPlayer {
         return volume;
     }
 
-    private Music music1;
-    private Music music2;
-
-    public MusicPlayer(@Qualifier("rockMusic") Music music1,
-                       @Qualifier("classicalMusic") Music music2) {
-        this.music1 = music1;
-        this.music2 = music2;
+    public MusicPlayer(List<Music> musicList) {
+        this.musicList = musicList;
     }
 
     public String playMusic() {
-        return "Playing: " + music1.getSong() + ", " + music2.getSong();
+        int index = ThreadLocalRandom.current().nextInt(musicList.size());
+        return "Playing: " + musicList.get(index).getSong();
     }
 }

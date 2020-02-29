@@ -4,6 +4,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * @author Neil Alishev
  */
@@ -21,8 +24,16 @@ public class SpringConfig {
     }
 
     @Bean
+    public AmbientMusic ambientMusic() {return new AmbientMusic();}
+
+    @Bean
+    public List<Music> musicList(){
+        return Arrays.asList(classicalMusic(), rockMusic(), ambientMusic());
+    }
+
+    @Bean
     public MusicPlayer musicPlayer() {
-        return new MusicPlayer(rockMusic(), classicalMusic());
+        return new MusicPlayer(musicList());
     }
 
     @Bean
